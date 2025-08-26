@@ -25,13 +25,13 @@ tag() {
     fi
     local re
     re="${ver//./\\.}"
-    re="^$re-rc\.[0-9]+|${re%.*}.x$"
+    re="^$re-rc\\.[0-9]+$"
     local tag
     tag=$(grep -E "^$re$" "$tags" | sort -rV | head -n 1)
-    if [ -z "$tag" ] ; then
+    if [ -z "$tag" ]; then
         echo >&2 "WARNING: Could not find a matching tags for version '$ver'"
-        echo "$ver"
-        return
+        echo >&2 "ERROR: Tag for version '$ver' could not be resolved"
+        exit 1
     fi
     echo "$tag"
 }
